@@ -76,14 +76,14 @@ unordered_map<string, int> generate_token_map(string fpath) {
 
 }
 
-int encode(string s, unordered_map<string, int> token_map) {
+int token_encode(string s, unordered_map<string, int> token_map) {
   if (token_map.find(s) == token_map.end()) {
     return token_map.at(UNK);
   }
   return token_map.at(s);
 }
 
-string decode(int token_id, unordered_map<string, int> token_map) {
+string token_decode(int token_id, unordered_map<string, int> token_map) {
   // invert token_map
   // this is stupid but it is not heavily used
   unordered_map<int, string> id_map;
