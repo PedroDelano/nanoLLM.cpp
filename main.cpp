@@ -1,13 +1,27 @@
 #include <iostream>
-#include <Eigen/Dense>
+#include <unordered_map>
+#include <vector>
+#include <string>
 
-using Eigen::MatrixXd;
+#include "src/tokenization.hpp"
 
-int main() {
-  MatrixXd m(2, 2);
-  m(0, 0) = 3;
-  m(1, 0) = 2.5;
-  m(0, 1) = -1;
-  m(1, 1) = m(1, 0) + m(0, 1);
-  std::cout << m << std::endl;
+using namespace std;
+
+int main(){
+
+  string test = "a guy walks into a bar.";
+  vector<string> tokens = tokenize(test);
+
+  for (size_t i = 0; i < tokens.size(); i++) {
+    cout << tokens[i] << endl;
+  }
+
+  unordered_map<string, int> token_map = generate_token_map("data/vocab_tiny.txt");
+
+  string tk = "love";
+  int tk_id = encode(tk, token_map);
+  cout << "Encoding for " << tk << " is " << tk_id << ". Decoded is " << decode(tk_id, token_map) << endl;
+
+  return 0;
+
 }
