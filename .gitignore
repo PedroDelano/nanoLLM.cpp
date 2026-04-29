@@ -1,0 +1,21 @@
+# Eigen library (vendored, not tracked)
+eigen-5.0.0/
+eigen-5.0.0.tar.gz
+
+# Build artifacts
+main
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.so
+*.dylib
+*.dSYM/
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
