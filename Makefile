@@ -32,3 +32,6 @@ fetch-eigen:
 
 clean:
 	rm -f $(BIN)
+
+run:
+	g++ -std=c++17 -I eigen-5.0.0 src/*.cpp main.cpp -o main && ./main
