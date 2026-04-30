@@ -21,12 +21,16 @@ int main(){
 
   unordered_map<string, int> token_map = generate_token_map("data/vocab_tiny.txt");
 
-  string tk = "love";
+  string tk = "yayayay";
   int tk_id = token_encode(tk, token_map);
   cout << "Encoding for " << tk << " is " << tk_id << ". Decoded is " << token_decode(tk_id, token_map) << endl;
 
-  MatrixXd emb_matrix = init_embeddings(6, 6);
-  cout << emb_matrix << endl;
+  const int EMBED_SIZE = 4;
+  const int VOCAB_SIZE = token_map.size();
+  MatrixXd embedding_matrix = init_embeddings(VOCAB_SIZE, EMBED_SIZE);
+
+  MatrixXd emb = embed(tk, token_map, embedding_matrix);
+  cout << emb << endl;
 
   return 0;
 
