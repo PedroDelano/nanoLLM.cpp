@@ -6,6 +6,7 @@
 
 #include "src/tokenization.hpp"
 #include "src/embedding.hpp"
+#include "src/dataloader.hpp"
 
 using namespace std;
 using Eigen::MatrixXd;
@@ -19,9 +20,9 @@ int main(){
     cout << tokens[i] << endl;
   }
 
-  unordered_map<string, int> token_map = generate_token_map("data/vocab_tiny.txt");
+  unordered_map<string, int> token_map = generate_token_map("data/vocab_large.txt");
 
-  string tk = "yayayay";
+  string tk = "love";
   int tk_id = token_encode(tk, token_map);
   cout << "Encoding for " << tk << " is " << tk_id << ". Decoded is " << token_decode(tk_id, token_map) << endl;
 
@@ -29,8 +30,22 @@ int main(){
   const int VOCAB_SIZE = token_map.size();
   MatrixXd embedding_matrix = init_embeddings(VOCAB_SIZE, EMBED_SIZE);
 
-  MatrixXd emb = embed(tk, token_map, embedding_matrix);
+  MatrixXd emb = embed_token(tk, token_map, embedding_matrix);
   cout << emb << endl;
+
+  MatrixXd pos = pos_embed(2, EMBED_SIZE);
+  cout << pos << endl;
+
+  const string TEXT = "the fox jumps over the lazy dog. the house screams with unkown issues. the lady basks over the fury.";
+  const size_t BATCH_SIZE = 2;
+  const size_t MAX_LENGTH = 10;
+  vector<MatrixXd> data = dataloader_v1(TEXT, BATCH_SIZE, MAX_LENGTH, token_map, embedding_matrix);
+
+  // for (size_t i = 0; i < data.size(); i++) {
+  //   cout << "=============================" << endl;
+  //   cout << data.at(i) << endl;
+  //   cout << "=============================" << endl;
+  // }
 
   return 0;
 

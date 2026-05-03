@@ -6,6 +6,7 @@
  *
  * *********************************************/
 
+#include <cassert>
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
@@ -14,7 +15,8 @@
 
 using namespace std;
 
-const string UNK = "[UNK]";
+const string UNK = "[UNK]"; // UNKNOWN
+const string SPC = "[SPC]"; // SPACE
 
 
 vector<string> tokenize(string s) {
@@ -27,12 +29,12 @@ vector<string> tokenize(string s) {
     if (s[i] == ' ') {
       // flush word
       tokens.push_back(tk);
-      tokens.push_back(" ");
+      tokens.push_back(SPC);
       tk = "";
     } else if (s[i] == '.' || s[i] == '!' || s[i] == '?' || s[i] == ',') {
       // flush word
       tokens.push_back(tk);
-      tokens.push_back(" ");
+      tokens.push_back(SPC);
       tk = "";
       // add accent
       accent += s[i];
@@ -69,8 +71,9 @@ unordered_map<string, int> generate_token_map(string fpath) {
     token_id++;
   }
 
-  // assert unkown exists
-  token_map.at(UNK);
+  // assert special tokens
+  assert(token_map.count(UNK) == 1);
+  assert(token_map.count(SPC) == 1);
 
   return token_map;
 
@@ -84,14 +87,10 @@ int token_encode(string s, unordered_map<string, int> token_map) {
 }
 
 string token_decode(int token_id, unordered_map<string, int> token_map) {
-  // invert token_map
-  // this is stupid but it is not heavily used
-  unordered_map<int, string> id_map;
-  for (const auto& [key, value]: token_map) {
-    id_map.insert({value, key});
+ for (const auto& [key, value]: token_map) {
+    if (value == token_id) {
+      return key;
+    }
   }
-  if (id_map.find(token_id) == id_map.end()) {
-    return UNK;
-  }
-  return id_map.at(token_id);
+  return UNK;
 }
