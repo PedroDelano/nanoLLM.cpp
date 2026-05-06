@@ -8,10 +8,15 @@
 using Eigen::MatrixXd;
 using namespace std;
 
-vector<MatrixXd> dataloader_v1(
+typedef struct Data_s {
+  vector<MatrixXd> input;
+  vector<MatrixXd> output;
+} Data;
+
+Data dataloader_v1(
   string text,
   size_t batch_size,
   size_t max_length,
-  unordered_map<string, int> token_map,
-  MatrixXd embedding_matrix
+  size_t stride,
+  unordered_map<string, int> token_map
 );

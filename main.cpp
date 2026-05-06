@@ -36,16 +36,20 @@ int main(){
   MatrixXd pos = pos_embed(2, EMBED_SIZE);
   cout << pos << endl;
 
-  const string TEXT = "the fox jumps over the lazy dog. the house screams with unkown issues. the lady basks over the fury.";
-  const size_t BATCH_SIZE = 2;
-  const size_t MAX_LENGTH = 10;
-  vector<MatrixXd> data = dataloader_v1(TEXT, BATCH_SIZE, MAX_LENGTH, token_map, embedding_matrix);
+  const string TEXT = "the fox jumps over the lazy dog. the fox jumps over the lazy dog. the fox jumps over the lazy dog.";
+  const size_t STRIDE = 1;
+  const size_t BATCH_SIZE = 4;
+  const size_t MAX_LENGTH = 4;
+  Data data = dataloader_v1(TEXT, BATCH_SIZE, MAX_LENGTH, STRIDE, token_map);
 
-  // for (size_t i = 0; i < data.size(); i++) {
-  //   cout << "=============================" << endl;
-  //   cout << data.at(i) << endl;
-  //   cout << "=============================" << endl;
-  // }
+  for (size_t i = 0; i < data.output.size(); i++) {
+    cout << "=============================" << endl;
+    cout << data.input.at(i) << endl;
+    cout << "=============================" << endl;
+    cout << data.output.at(i) << endl;
+    cout << "=============================" << endl;
+    cout << endl;
+  }
 
   return 0;
 
